@@ -6,7 +6,7 @@ class DatabaseHandler():
     def __init__ (self, database = "exampledb", user = "docker", passoword = "password", host = "localhost"):
         self.database = database
         self.user = user
-        self.password = password
+        self.password = passoword
         self.host = host
         self.conn = None
 
