@@ -28,7 +28,7 @@ class DatabaseHandler():
         """
         Establishes a connection to the database.
         """
-        
+
         self.conn = psycopg2.connect(
             database= self.database,
             user= self.user,
@@ -37,6 +37,10 @@ class DatabaseHandler():
         )
 
     def _close_connection(self):
+        """
+        Closes the connection to the database if it's open.
+        """
+        
         if self.conn is not None:
             self.conn.close()
 
