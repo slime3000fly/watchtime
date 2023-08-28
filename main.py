@@ -3,7 +3,7 @@ import psycopg2
 
 class DatabaseHandler():
 
-    def __init__ (self, database = "exampledb", user = "docker", passowerd = "password", host = "localhost"):
+    def __init__ (self, database = "exampledb", user = "docker", passoword = "password", host = "localhost"):
         self.database = database
         self.user = user
         self.password = password
