@@ -3,45 +3,79 @@ import psycopg2
 
 class DatabaseHandler():
 
-    def __init__ (self, database = "exampledb", user = "docker", passoword = "password", host = "localhost"):
+    """
+    A class for handling database operations using psycopg2 library.
+    """
+
+    def __init__ (self, database = "exampledb", user = "docker", password = "password", host = "localhost"):
+        """
+        Initializes a DatabaseHandler object with connection parameters.
+
+        Args:
+            database (str): The name of the database.
+            user (str): The username for database authentication.
+            password (str): The password for database authentication.
+            host (str): The host where the database is located.
+        """
+
         self.database = database
         self.user = user
-        self.password = passoword
+        self.password = password
         self.host = host
         self.conn = None
 
-    def connect(self):
-        # Connect to existing database
+    def _connect(self):
+        """
+        Establishes a connection to the database.
+        """
+        
         self.conn = psycopg2.connect(
-            database="exampledb",
-            user="docker",
-            password="docker",
-            host="localhost"
+            database= self.database,
+            user= self.user,
+            password= self.password,
+            host= self.host
         )
 
-    def close_connections(self):
+    def _close_connection(self):
         if self.conn is not None:
             self.conn.close()
 
+    def __check_user_existence(self,username):
+        """
+        Checks if a user with the given username exists in the database.
 
-    def createUser(self,username,password):
-        # Open cursor to perform database operation
-        cur = self.conn.cursor()
+        Args:
+            username (str): The username to check.
 
-        # temporary date
-        username = "slime3000fly"
-        password = "n"
+        Returns:
+            bool: True if the user exists, False otherwise.
+        """
 
-        # Selct queery to check if username exist
+        self._connect()
+        cur = self.conn.cursor() # Open cursor to perform database operation
         cur.execute("SELECT * FROM login WHERE username = %s", (username,))
-        existing_record = cur.fetchone()
+        existing_record = cur.fetchone() # get record from previos querry
+        cur.close() # close cursor
+        self._close_connection()
+        return existing_record is not None
 
-        # if username dosen't exist, create new record 
-        if existing_record is None:
+
+    def create_user(self,username,password):
+        """
+        Creates a new user in the database.
+
+        Args:
+            username (str): The username of the new user.
+            password (str): The password of the new user.
+        """
+
+        if not self.__check_user_existence(username):
+            self._connect()
+            cur = self.conn.cursor()
             cur.execute("INSERT INTO login (username, password) VALUES (%s, %s)", (username, password))
-            self.conn.commit()
-            print("User created sucesfully")
+            self.conn.commit() # add record to table
+            cur.close()
+            self._close_connection()
+            print("User created successfully.")
         else:
-            print("User allready exist")
-
-        cur.close()
+            print("User already exists.")     
