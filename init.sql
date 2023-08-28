@@ -1,27 +1,27 @@
--- Tworzenie tabeli "Logowanie"
-CREATE TABLE Logowanie (
+-- Creating the "Login" table
+CREATE TABLE Login (
     id SERIAL PRIMARY KEY,
     username TEXT UNIQUE,
-    password CHAR
+    password VARCHAR
 );
 
--- Tworzenie tabeli "DaneWatchTime"
-CREATE TABLE DaneWatchTime (
+-- Creating the "WatchTimeData" table
+CREATE TABLE WatchTimeData (
     data_id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES Logowanie(id),
+    user_id INTEGER REFERENCES Login(id),
     data_date DATE
 );
 
--- Tworzenie tabeli "DaneAplikacji"
-CREATE TABLE DaneAplikacji (
+-- Creating the "AppData" table
+CREATE TABLE AppData (
     app_id SERIAL PRIMARY KEY,
     app_name TEXT
 );
 
--- Tworzenie tabeli "CzasAplikacji"
-CREATE TABLE CzasAplikacji (
+-- Creating the "AppTime" table
+CREATE TABLE AppTime (
     id SERIAL PRIMARY KEY,
-    data_id INTEGER REFERENCES DaneWatchTime(data_id),
-    app_id INTEGER REFERENCES DaneAplikacji(app_id),
-    czas INTEGER
+    data_id INTEGER REFERENCES WatchTimeData(data_id),
+    app_id INTEGER REFERENCES AppData(app_id),
+    time_spent INTEGER
 );

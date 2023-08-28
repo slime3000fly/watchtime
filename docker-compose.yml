@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_USER: docker
       POSTGRES_PASSWORD: docker
-      POSTGRES_DB: exampledb
+      POSTGRES_DB: watchtime
 
   adminer:
     image: adminer
