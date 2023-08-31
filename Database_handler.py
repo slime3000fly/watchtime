@@ -28,7 +28,7 @@ class DatabaseHandler():
         """
         Establishes a connection to the database.
         """
-        
+
         print("_connect method called")
         self.conn = psycopg2.connect(
             database= self.database,
@@ -169,6 +169,7 @@ class DatabaseHandler():
         Returns:
             list: A list of dictionaries representing the user records.
         """
+        
         self._connect()
         cur = self.conn.cursor()
         query = "SELECT * FROM login"
@@ -191,6 +192,7 @@ class DatabaseHandler():
         Note:
             This function assumes valid data_id and app_id values exist in the respective tables.
         """
+
         if self.__check_item_existence(data_id,'watchtimedata','data_id'):
             if self.__check_item_existence(app_id,'appdata','app_id'):
                 self._connect()
